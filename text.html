@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio Website</title>
+    
+    <!-- Boxicons for icons (if you plan to add a menu icon later, though not visible in this specific image) -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        /* Google Fonts Import */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+        /* Universal Styles (CSS Reset) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            scroll-behavior: smooth;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* CSS Custom Properties (Variables) */
+        :root {
+            --bg-color: #081b29; /* Very dark blue/almost black */
+            --second-bg-color: #112e42; /* Slightly lighter dark blue (used for mobile nav, etc.) */
+            --text-color: #ededed; /* Light grey/off-white */
+            --main-color: #00abf0; /* Vibrant light blue */
+        }
+
+        /* HTML and Body Base Styles */
+        html {
+            font-size: 62.5%; /* Sets 1rem = 10px for easier scaling */
+            overflow-x: hidden; /* Prevents horizontal scrollbars */
+        }
+
+        body {
+            background-color: var(--bg-color); /* Apply the dark background */
+            color: var(--text-color); /* Apply the light text color */
+            font-size: 1.6rem; /* Base font size for body (16px) */
+            min-height: 100vh; /* Ensure body takes at least full viewport height */
+            /* Using grid for body to place header and home section, ensuring home section is centered */
+            display: grid;
+            grid-template-rows: auto 1fr; /* Header takes auto height, home section takes remaining */
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed; /* Stays at the top when scrolling */
+            background: transparent; /* Transparent background */
+            z-index: 1000; /* Ensures header is above other content */
+            width: 100%; /* Full width */
+            display: flex; /* Use flexbox for internal layout */
+            justify-content: space-between; /* Puts logo on left, nav on right */
+            align-items: center; /* Vertically centers items */
+            padding: 2rem 9%; /* Top/bottom padding 20px, left/right 9% of width */
+            top: 0;
+            left: 0;
+        }
+
+        /* Logo Styles */
+        .logo {
+            width: 15rem; /* 150px width for the logo image */
+            /* The 'color' and 'font-weight' properties here are for text logos,
+               but since you're using an image, they won't directly affect it. */
+            color: var(--text-color); 
+            font-weight: 600;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            display: flex; /* Use flexbox for navigation links */
+            align-items: center; /* Vertically centers links */
+            justify-content: center; /* Centers links horizontally within navbar */
+        }
+
+        .navbar a {
+            color: var(--text-color); /* Light text color for links */
+            text-decoration: none; /* Removes underline from links */
+            transition: color 0.3s; /* Smooth color transition on hover */
+            font-weight: 500; /* Medium font weight */
+            margin-left: 3.5rem; /* Spacing between navigation links */
+        }
+
+        .navbar a:hover,
+        .navbar a:active {
+            color: var(--main-color); /* Changes link color to main accent color on hover/active */
+        }
+
+        /* Menu Icon Styles (for mobile/responsive - not visible in the provided image) */
+        #menu-icon {
+            display: none; /* Hidden by default, will be shown on smaller screens with media queries */
+            font-size: 3.6rem; /* Large font size for icon */
+            color: var(--text-color); /* Light text color for icon */
+            cursor: pointer; /* Changes cursor to pointer on hover */
+        }
+
+        /* Home Section Styles */
+        .home {
+            min-height: 100vh; /* Ensures home section takes at least full viewport height */
+            display: flex; /* Use flexbox for content alignment */
+            align-items: center; /* Vertically centers content within the section */
+            padding: 0 9%; /* Horizontal padding for content */
+            /* Adjust padding-top to account for the fixed header height */
+            padding-top: 8rem; /* Roughly header height + some spacing */
+        }
+
+        .home-content {
+            max-width: 60rem; /* Maximum width for the content block */
+            text-align: left; /* Align text to the left as per image */
+            /* No need for absolute positioning here, as body/home flexbox handles centering */
+        }
+
+        .home-content h1 {
+            font-size: 5.6rem; /* Large heading size */
+            font-weight: 700; /* Bold */
+            line-height: 1.2; /* Spacing between lines */
+            color: var(--text-color); /* Default text color (white) */
+        }
+
+        .home-content h1 span {
+            color: var(--text-color); /* Name is also white in the provided image */
+        }
+
+        .home-content .text-animate {
+            position: relative; /* Positioning context for animation */
+            width: 32.8rem; /* Fixed width for animation effect */
+            margin-top: 1rem; /* Space below h1 */
+        }
+
+        .home-content .text-animate h3 {
+            font-size: 3.2rem; /* Subheading size */
+            font-weight: 700; /* Bold */
+            color: transparent; /* Makes the fill transparent */
+            -webkit-text-stroke: .7px var(--main-color); /* Creates the light blue outline */
+            background-image: linear-gradient(var(--main-color), var(--main-color)); /* Gradient for fill */
+            background-repeat: no-repeat;
+            -webkit-background-clip: text; /* Clips background to text shape */
+            background-position: -32.8rem 0; /* Initial position for animation (off-screen) */
+            animation: homeBgText 6s linear infinite; /* Animation definition */
+            animation-delay: 2s; /* Delay before animation starts */
+        }
+
+        /* Keyframes for the text animation */
+        @keyframes homeBgText {
+            0%, 10%, 100% {
+                background-position: -32.8rem 0; /* Text is outlined */
+            }
+            65%, 80% {
+                background-position: 0 0; /* Text is filled */
+            }
+        }
+
+        .home-content p {
+            font-size: 1.6rem; /* Paragraph font size */
+            margin: 2rem 0 4rem; /* Top margin 20px, bottom 40px */
+            color: var(--text-color); /* Light grey text color */
+        }
+
+        /* Button Box Container */
+        .btn-box {
+            position: relative; /* For potential future effects, though not strictly needed here */
+            display: flex; /* Arrange buttons side-by-side */
+            justify-content: space-between; /* Space out buttons */
+            width: 34.5rem; /* Fixed width for button container */
+            height: 5rem; /* Fixed height for button container */
+        }
+
+        /* General Button Styling */
+        .btn-box .btn {
+            position: relative;
+            display: inline-flex; /* Allows flex properties for centering text */
+            justify-content: center;
+            align-items: center;
+            width: 15rem; /* Fixed width for each button */
+            height: 100%; /* Full height of parent container */
+            background: var(--main-color); /* Solid light blue background for first button */
+            border: 0.2rem solid var(--main-color); /* Light blue border */
+            border-radius: 1rem; /* Rounded corners */
+            font-size: 1.8rem; /* Button text size (corrected from 'large') */
+            font-weight: 600; /* Semi-bold */
+            letter-spacing: .1rem; /* Spacing between letters (corrected from .8px) */
+            color: var(--bg-color); /* Dark text for the first button */
+            z-index: 1; /* Ensures text is above hover effect */
+            overflow: hidden; /* Hides the initial state of the hover effect */
+            transition: .5s; /* Smooth transition for all properties (corrected typo) */
+        }
+
+        /* Pseudo-element for the hover effect on all buttons */
+        .btn-box .btn::before {
+            content: '';
+            border-radius: 1rem; /* Match button border-radius */
+            position: absolute;
+            top: -0.2rem; /* Adjust to cover border */
+            left: -0.2rem; /* Adjust to cover border */
+            width: calc(100% + 0.4rem); /* Adjust to cover border */
+            height: calc(100% + 0.4rem); /* Adjust to cover border */
+            background: var(--bg-color); /* Dark background for hover fill */
+            z-index: -1; /* Behind the button text */
+            transition: .5s; /* Smooth transition */
+            /* Initial state of width for animation */
+            width: 0%; /* Start with 0 width */
+        }
+
+        /* Expands the pseudo-element on hover */
+        .btn-box .btn:hover::before {
+            width: calc(100% + 0.4rem); /* Fills the button on hover, including border */
+        }
+
+        /* Text color change on hover for the first button */
+        .btn-box .btn:hover {
+            color: var(--main-color); /* Text color changes to accent on hover */
+        }
+
+        /* Styling for the second button ("Let's Talk") */
+        .btn-box .btn:nth-child(2) {
+            background: transparent; /* Transparent background */
+            color: var(--main-color); /* Light blue text */
+            /* Border is inherited from .btn, no need to repeat unless different */
+        }
+
+        /* Pseudo-element for the hover effect on the second button */
+        .btn-box .btn:nth-child(2)::before {
+            content: '';
+            border-radius: 1rem; /* Match button border-radius */
+            position: absolute;
+            top: -0.2rem; /* Adjust to cover border */
+            left: -0.2rem; /* Adjust to cover border */
+            width: calc(100% + 0.4rem); /* Adjust to cover border */
+            height: calc(100% + 0.4rem); /* Adjust to cover border */
+            background: var(--main-color); /* Light blue background for hover fill */
+            z-index: -1; /* Behind the button text */
+            transition: .5s; /* Smooth transition */
+            /* Initial state of width for animation */
+            width: 0%; /* Start with 0 width */
+        }
+
+        /* Expands the pseudo-element on hover for the second button */
+        .btn-box .btn:nth-child(2):hover::before {
+            width: calc(100% + 0.4rem); /* Fills the button on hover, including border */
+        }
+
+        /* Text color change on hover for the second button */
+        .btn-box .btn:nth-child(2):hover {
+            color: var(--bg-color); /* Text changes to dark on hover */
+        }
+
+        /* Responsive Design (Media Queries) */
+        @media (max-width: 1200px) {
+            html {
+                font-size: 55%;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .header {
+                padding: 2rem 4%;
+            }
+
+            .home {
+                padding: 10rem 4% 2rem;
+                flex-direction: column; /* Stack content vertically */
+                text-align: center; /* Center align text */
+            }
+
+            .home-content {
+                max-width: 100%;
+                padding-top: 0; /* Remove extra top padding */
+            }
+
+            .home-content h1 {
+                font-size: 4.5rem; /* Adjust heading size */
+            }
+
+            .home-content .text-animate {
+                width: auto; /* Allow width to adjust */
+                margin: 1rem auto; /* Center animated text */
+            }
+
+            .home-content .text-animate h3 {
+                font-size: 2.8rem; /* Adjust animated text size */
+                -webkit-text-stroke: .5px var(--main-color);
+            }
+
+            .btn-box {
+                flex-direction: column; /* Stack buttons vertically */
+                width: 100%;
+                height: auto;
+                gap: 1.5rem; /* Space between stacked buttons */
+                margin-top: 2rem;
+            }
+
+            .btn-box .btn {
+                width: 100%; /* Full width for stacked buttons */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                background: var(--bg-color);
+            }
+
+            #menu-icon {
+                display: block;
+            }
+
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: -100%;
+                width: 100%;
+                padding: 1rem 4%;
+                background: var(--second-bg-color);
+                border-top: .1rem solid rgba(0, 0, 0, .2);
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+                transition: .25s ease;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar.active {
+                left: 0;
+            }
+
+            .navbar a {
+                display: block;
+                font-size: 2rem;
+                margin: 1.5rem 0;
+            }
+
+            .home-content h1 {
+                font-size: 4rem;
+            }
+
+            .home-content .text-animate h3 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .home-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .home-content .text-animate h3 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 462px) {
+            .home-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 371px) {
+            .home-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <!-- Using the logo you generated -->
+        <img class="logo" src="http://googleusercontent.com/image_generation_content/24" alt="Fikir M. Logo">
+        
+        <!-- Boxicons menu icon for mobile navigation -->
+        <div class="bx bx-menu" id="menu-icon"></div>
+        
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </nav>   
+    </header>
+
+    <section class="home" id="home">
+        <div class="home-content">
+            <h1>Hi, I'm <span>Fikir Mulugeta</span></h1>
+            <div class="text-animate">
+                <h3>Frontend Developer</h3>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus at cupiditate laborum quae facere debitis ipsam quasi, natus quibusdam officiis fugit repellat veniam totam asperiores doloremque nobis.</p>
+            <div class="btn-box">
+                <a href="#" class="btn">Hire Me</a>
+                <a href="#" class="btn">Let's Talk</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Placeholder for other sections to allow scrolling -->
+    <section id="about" style="min-height: 100vh; background-color: var(--second-bg-color); padding: 10rem 9%; display: flex; align-items: center; justify-content: center; color: var(--text-color);">
+        <h2>About Section</h2>
+    </section>
+    <section id="education" style="min-height: 100vh; background-color: var(--bg-color); padding: 10rem 9%; display: flex; align-items: center; justify-content: center; color: var(--text-color);">
+        <h2>Education Section</h2>
+    </section>
+    <section id="skills" style="min-height: 100vh; background-color: var(--second-bg-color); padding: 10rem 9%; display: flex; align-items: center; justify-content: center; color: var(--text-color);">
+        <h2>Skills Section</h2>
+    </section>
+    <section id="contact" style="min-height: 100vh; background-color: var(--bg-color); padding: 10rem 9%; display: flex; align-items: center; justify-content: center; color: var(--text-color);">
+        <h2>Contact Section</h2>
+    </section>
+
+    <!-- Basic JavaScript for menu toggle (for responsive design) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuIcon = document.getElementById('menu-icon');
+            const navbar = document.querySelector('.navbar');
+
+            if (menuIcon && navbar) {
+                menuIcon.onclick = () => {
+                    menuIcon.classList.toggle('bx-x'); // Changes icon to 'x'
+                    navbar.classList.toggle('active'); // Toggles 'active' class on navbar
+                };
+            }
+        });
+    </script>
+</body>
+</html>
